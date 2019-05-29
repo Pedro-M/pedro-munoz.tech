@@ -8,7 +8,7 @@ Header_Cover: images/pages/skills/skills.jpg
 | __Machine Learning__ | Tensorflow, Keras, OpenCV, NLP, Scikit-Learn, Pandas, Numpy
 | __Big Data__ | Spark, Hive, Impala, Flume, Kafka, Cloudera, MapR
 | __Cloud Computing__ | AWS (Amazon Web Services)
-| __Orchestration__ | Airflow, Supervisor
+| __Orchestration__ | Airflow, Oozie
 | __Web Development__ | HTML, CSS, Javascript, PHP, Django
 | __Computer Languages__  &nbsp;&nbsp;| Python, Scala, Java
 
