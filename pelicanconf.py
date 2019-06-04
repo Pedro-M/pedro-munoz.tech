@@ -16,7 +16,7 @@ LOCALE = 'en_US.UTF-8'
 
 AUTHOR = 'Pedro Muñoz'
 SITENAME = 'Pedro Muñoz'
-SITESUBTITLE = 'Aerospace Engineer | Big Data Architect | Data Scientist'
+SITESUBTITLE = 'Machine Learning Engineer | Big Data Architect | Data Scientist'
 
 #########################################################################################
 # PATHS
