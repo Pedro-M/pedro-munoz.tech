@@ -80,6 +80,9 @@
                 <meta property="og:locale" content="{{ LOC }}">
             {% endfor %}
 		<meta property="og:site_name" content="{{ SITENAME }}">
+            {% if HEADER_COVER %}
+            <meta property="og:image" content="{{ SITEURL }}/{{ HEADER_COVER }}">
+            {% endif %}
 	{% endblock opengraph %}
     {% block twitter_card %}
         {% for name,link in SOCIAL if name in ['twitter'] %}
