@@ -1,4 +1,4 @@
-Title: Consultancy Services
+Title: Consulting Services
 Date: 2019-06-01
 Category: consultancy
 Tags: freelance, ai, deep learning, computer vision, big data, consultancy
