@@ -22,6 +22,45 @@ ACHIEVEMENTS:
 - Live tracking of people in buses with WiFi sniffing techniques
 - Live tracking of people on street with computer vision techniques and adaptation to hardware requirements (edge TPU)
     
+&nbsp;
+## Maintainer
+<a href="https://datatau.net/" target="_blank">
+####DataTau</a>
+_June 2019 - Present_  
+
+TASKS:
+
+- Web development with Django (Python)
+- Management and maintenance of Open Source project (issues, roadmap, pull requests, etc.)
+- Promoting the site in tech forums and communities
+- Hosting management in personal datacenter
+
+ACHIEVEMENTS:
+
+- Development of a fully functional clone of Hacker News in a record time (3 days)
+- Viral relaunching of the site, reaching Hacker News front page and a very relevant position in Reddit
+- Hosting in self-owned infrastructure, supporting major traffic spikes
+- Revitalizing DataTau community and creation of open source project that ensures continuity and independence of DataTau forever
+
+&nbsp;
+## Tech Director
+<a href="https://hr-bots.com/" target="_blank">
+####HRbots</a>
+_January 2018 - Present_
+	
+TASKS:
+
+- Development of chatbots applied to Human Resources tasks
+- Design and development of all chat interfaces (web based and PWAs)
+- Use of Google AI engine for improving the chat experience: Dialogflow
+- Development of a custom training system based on NLP: spaCy
+- Extraction of insights from employee-chatbot conversations through data analysis to generate value in business processes: pandas
+
+ACHIEVEMENTS:
+
+- Successful integration of a full featured PWA (push notification system, app-like interfaces...) in Top-Employers Institute
+- Creation of engagement in bot conversations through contests and analytics
+
 &nbsp; 
 ## Founder
 <a href="https://moderator-guru.com/" target="_blank">
@@ -30,12 +69,12 @@ _January 2019 - Present_
 
 TASKS:
 
- - Development of an NLP engine capable of detecting and classifying toxic comments
- - Development of the Frontend stack (HTML, CSS, Javascript) using Bootstrap and jQuery along with a Django backend
+- Development of an NLP engine capable of detecting and classifying toxic comments
+- Development of the Frontend stack (HTML, CSS, Javascript) using Bootstrap and jQuery along with a Django backend
 
 ACHIEVEMENTS:
 
- - An NLP project working on production with an available API
+- An NLP project working on production with an available API
 
 &nbsp;
 ## Tech Director
@@ -102,4 +141,3 @@ languages
 ACHIEVEMENTS:
 
 - Huge savings for Solute in terms of SW licenses (~30K), as my code substituted the comercial SW used for fatigue analysis at the company
- 
