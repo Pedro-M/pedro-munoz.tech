@@ -21,6 +21,3 @@ Credential ID: 100-020-312
 	
 <a href="https://www.cambridgeenglish.org/exams-and-tests/advanced/" target="_blank">
 ####Certificate in Advanced English (C1)</a> <span style="font-size: 1.5rem">by _Cambridge University_</span>
-<div style="font-size: 1.5rem">
-Grade C
-</div>

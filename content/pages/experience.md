@@ -23,6 +23,16 @@ ACHIEVEMENTS:
 - Live tracking of people on street with computer vision techniques and adaptation to hardware requirements (edge TPU)
     
 &nbsp;
+## Lead Teacher
+<a href="https://www.ironhack.com/en/courses/data-analytics-bootcamp" target="_blank">
+####Ironhack</a>
+_July 2019 - Present_  
+
+Lead Teacher in one of the best Data Science schools worldwide, combining both theoretical and 
+technical stack to build the future generation of Data Scientists. My most important asset is my link and
+experience with the Real World as I don’t spend more of 50 % of my time in academia.
+
+&nbsp;
 ## Maintainer
 <a href="https://datatau.net/" target="_blank">
 ####DataTau</a>
