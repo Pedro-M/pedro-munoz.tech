@@ -87,25 +87,6 @@ ACHIEVEMENTS:
 - An NLP project working on production with an available API
 
 &nbsp;
-## Tech Director
-<a href="https://hr-bots.com/" target="_blank">
-####HRbots</a>
-_January 2018 - Present_
-	
-TASKS:
-
-- Development of chatbots applied to Human Resources tasks
-- Design and development of all chat interfaces (web based and PWAs)
-- Use of Google AI engine for improving the chat experience: Dialogflow
-- Development of a custom training system based on NLP: spaCy
-- Extraction of insights from employee-chatbot conversations through data analysis to generate value in business processes: pandas
-
-ACHIEVEMENTS:
-
-- Successful integration of a full featured PWA (push notification system, app-like interfaces...) in Top-Employers Institute
-- Creation of engagement in bot conversations through contests and analytics
-
-&nbsp;
 ## Big Data Developer - Data Scientist
 <a href="https://www.p3-group.com/en/" target="_blank">
 ####P3-Group</a>
