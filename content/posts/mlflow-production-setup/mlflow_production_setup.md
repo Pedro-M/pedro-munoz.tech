@@ -23,109 +23,159 @@ The tracking server is the User Interface and metastore of MLflow.
 You can check the status of any run through this web application and 
 centralize the model outputs and configurations in just one place.
 
-It needs a database backend to store all the metadata. In our case we use 
-PostgreSQL:
-
-### Postgres
-
-Let's create a database and a user to connect to it:
-
-```bash
-sudo apt install postgresql postgresql-contrib postgresql-server-dev-all
-sudo -u postgres psql
-create database mlflow;
-create user ubuntu with encrypted password 'ubuntu';
-grant all privileges on database mlflow to ubuntu;
-```
-
-Then, let's create the virtual environment where MLflow will be installed:
+The first thing we need to configure is the environment.
 
 ### Environment
 
+Let's create a new Conda environment as it will be the place where MLflow
+will be installed:
+
 ```bash
-sudo apt-get install python3-dev
-sudo apt install virtualenv
-mkdir ~/.venvs
-virtualenv -p python3 ~/.venvs/mlflow_env
-source ~/.venvs/mlflow_env/bin/activate
+conda create -n mlflow_env
+conda activate mlflow_env
+```
+
+Then we have to install the MLflow library:
+
+```bash
+conda install python
 pip install mlflow
+```
+
+Run the following command to check that the installation was successful:
+
+```bash
+mlflow --help
+```
+
+We'd like our Traking Server to have a Postgres database as a backend for
+storing metadata, so the first step will be installing PostgreSQL:
+
+```bash
+sudo apt-get install postgresql postgresql-contrib postgresql-server-dev-all
+```
+
+Check installation connecting to the database:
+
+```bash
+sudo -u postgres psql
+```
+
+After the installation is successful, let's create an user and a database
+for the Traking Server:
+
+```sql
+CREATE DATABASE mlflow;
+CREATE USER mlflow WITH ENCRYPTED PASSWORD 'mlflow';
+GRANT ALL PRIVILEGES ON DATABASE mlflow TO mlflow;
+```
+
+As we'll need to interact with Postgres from Python, it is needed to install
+the psycopg2 library. However, to ensure a successful installation we need 
+to install the gcc linux package before:
+
+```bash
+sudo apt install gcc
 pip install psycopg2
 ```
 
-Now we are ready to launch the tracking server
-
-### Tracking Server
+The last step will be creating a directory in our local machine for our 
+Tracking Server to log there the Machine Learning models and other artifacts.
+Remember that the Postgres database is only used for storing metadata
+regarding those models (imaging adding a model or a virtual environment
+to a database). This directory is called artifact URI:
 
 ```bash
 mkdir ~/mlruns
-mlflow server --backend-store-uri postgresql://ubuntu:ubuntu@localhost/mlflow --default-artifact-root file:/home/mlflow/mlruns --host 0.0.0.0
 ```
 
-As a backend for the web application we have use the MLflow Postgres database
-that was setup before (--backend-store-uri). It stores all metadata related 
-to MLflow executions, however it is also needed to define another place where
-all MLmodels and configurations are stored (--default-artifact-root). As the
-server IP we've set 0.0.0.0, but you can set any IP/DNS that points to the
-machine where the tracking server is launched. 
+### Run
 
-You can check that everything worked fine checking your server URL in port 5000
-in your browser: [http://0.0.0.0:5000](http://0.0.0.0:5000)
-
-For the following, it is necessary to add the following line to the .bashrc
-so that the subsequents runs of MLflow use this tracking server.
+Everything is now setup to run the Tracking Server. Then write the following
+command:
 
 ```bash
-export MLFLOW_TRACKING_URI='http://0.0.0.0:5000'
+mlflow server --backend-store-uri postgresql://mlflow:mlflow@localhost/mlflow --default-artifact-root file:/home/your_user/mlruns -h 0.0.0.0 -p 8000
+```
+
+Now the Tracking server should be available a the following URL: 
+[http://0.0.0.0:8000](http://0.0.0.0:8000). However, if you Ctrl-C or 
+exit the terminal, the server will go down.
+
+### Production
+
+If you want the Tracking server to be up and running after restarts and 
+be resilient to failures, it is very useful to run it as a systemd service.
+
+You need to go into the /etc/systemd/system folder and create a new file called
+mlflow-tracking.service with the following content:
+ 
+```
+[Unit]
+Description=MLflow tracking server
+After=network.target
+
+[Service]
+Restart=on-failure
+RestartSec=30
+StandardOutput=file:/path_to_your_logging_folder/stdout.log
+StandardError=file:/path_to_your_logging_folder/stderr.log
+ExecStart=/bin/bash -c 'PATH=/path_to_your_conda_installation/envs/mlflow_env/bin/:$PATH exec mlflow server --backend-store-uri postgresql://mlflow:mlflow@localhost/mlflow --default-artifact-root file:/home/your_user/mlruns -h 0.0.0.0 -p 8000'
+
+[Install]
+WantedBy=multi-user.target
+```
+
+After that, you need to activate and enable the service with the following
+commands:
+
+```bash
+sudo mkdir -p /path_to_your_logging_folder
+sudo systemctl daemon-reload
+sudo systemctl enable mlflow-tracking
+sudo systemctl start mlflow-tracking
+```
+
+Check that everything worked as expected with the following command:
+
+```bash
+sudo systemctl status mlflow-tracking
+```
+
+You should see an output similar to this:
+
+```
+● mlflow-tracking.service - MLflow tracking server
+   Loaded: loaded (/etc/systemd/system/mlflow-tracking.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2019-09-27 09:02:11 UTC; 14s ago
+ Main PID: 10357 (mlflow)
+    Tasks: 10 (limit: 4915)
+   CGroup: /system.slice/mlflow-tracking.service
+           ├─10357 /path_to_your_conda_installation/envs/mlflow_env/bin/python /home/ubuntu/miniconda3/envs/mlflow_env/bin/mlflow s
+           ├─10377 /path_to_your_conda_installation/envs/mlflow_env/bin/python /home/ubuntu/miniconda3/envs/mlflow_env/bin/gunicorn
+           ├─10381 /path_to_your_conda_installation/envs/mlflow_env/bin/python /home/ubuntu/miniconda3/envs/mlflow_env/bin/gunicorn
+           ├─10383 /path_to_your_conda_installation/envs/mlflow_env/bin/python /home/ubuntu/miniconda3/envs/mlflow_env/bin/gunicorn
+           ├─10385 /path_to_your_conda_installation/envs/mlflow_env/bin/python /home/ubuntu/miniconda3/envs/mlflow_env/bin/gunicorn
+           └─10386 /path_to_your_conda_installation/envs/mlflow_env/bin/python /home/ubuntu/miniconda3/envs/mlflow_env/bin/gunicorn
+
+Sep 27 09:02:11 ubuntu systemd[1]: Started MLflow tracking server.
+```
+ 
+You can now restart your machine and the MLflow Tracking Server will be
+up and running after this restart.
+
+In order to start tracking everything under this Tracking Server it is
+necessary to set the following environmental variable on .bashrc:
+
+```
+export MLFLOW_TRACKING_URI='http://0.0.0.0:8000'
 ```
 
 Remember to activate this change with:
 
-```bash
+```
 . ~/.bashrc
 ```
-
-If everything works, let's run the tracking server as a service with supervisor:
-
-### Supervisor
-
-For those who don't know, supervisor is a quite interesting package to orchestrate
-services in Linux OS. If you wanna know more about it, check the following url:
-[Supervisor](http://supervisord.org/introduction.html)
-
-```bash
-sudo apt install supervisor
-sudo mkdir -p /var/log/mlflow/tracking
-```
-
-To get the tracking server up and running, add the following lines to
-/etc/supervisor/supervisord.conf (remember to replace the string "your_user"
-in the following lines with your current username): 
-
-```
-[program:mlflow_tracking_server]
-command = /bin/bash -c 'source "$0" && exec "$@"' /home/your_user/.venvs/mlflow_env/bin/activate mlflow server --backend-store-uri postgresql://ubuntu:ubuntu@localhost/mlflow --default-artifact-root file:/home/your_user/mlruns --host 0.0.0.0
-autostart = true
-autorestart = true
-user = mlflow
-stdout_logfile = /var/log/mlflow/tracking/stdout.log
-stderr_logfile = /var/log/mlflow/tracking/stderr.log
-stopsignal = KILL
-```
-
-Then restart supervisor and check status:
-
-```bash
-sudo service supervisor restart
-sudo supervisorctl
-```
-
-You should get an output similar to this:
-
-```
-mlflow_tracking_server           RUNNING   pid 25517, uptime 0:00:12
-```
-
-Press Ctrl-D to exit.
 
 ## Serve a Machine Learning model in production
 
@@ -137,54 +187,23 @@ Let's start creating the production environment to run the ML model:
 ### Environment
 
 ```bash
-virtualenv -p python3 ~/.venvs/production_env
-source ~/.venvs/production_env/bin/activate
+conda create -n production_env
+conda activate production_env
+conda install python
 pip install mlflow
 pip install sklearn
-```
-
-A requirement for MLflow to work is having a Conda installation on the machine:
-
-### Conda
-
-```bash
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-bash ~/miniconda.sh -b -p ~/miniconda
-```
-
-Remember to add the following line to the .bashrc to have the conda command in
-your path:
-
-```bash
-export PATH=~/miniconda/bin:$PATH
-```
-
-Remember to activate this change with:
-
-```bash
-. ~/.bashrc
 ```
 
 Then, let's clone an example from the official repository to show how to 
 ramp up a model:
 
-### Clone example
+### GitHub example
 
 ```bash
-cd
-git clone https://github.com/mlflow/mlflow
+mlflow run git@github.com:databricks/mlflow-example.git -P alpha=0.5
 ```
 
-Now it's time to execute it:
-
-### Run test example
-
-```bash
-cd ~/mlflow/examples/
-mlflow run sklearn_elasticnet_wine -P alpha=0.3
-```
-
-This run will generate a new entry in your tracking server [http://0.0.0.0:5000](http://0.0.0.0:5000)
+This run will generate a new entry in your tracking server [http://0.0.0.0:8000](http://0.0.0.0:8000)
 alongside with a new folder in which the model and the configuration is stored 
 (~/mlruns/0/some_uuid). Let's check it:
 
@@ -193,57 +212,64 @@ ls -al ~/mlruns/0
 ```
 
 Get the uuid related to the execution from the previous output and substitute
-the string "your_model_id" with it in the following line:
+the string "your_model_id" with it in the following line (of course
+you could do that searching for the uuid in the Tracking Server):
 
 ```bash
-mlflow models serve -m ~/mlruns/0/your_model_id/artifacts/model -h 0.0.0.0 -p 1234
+mlflow models serve -m ~/mlruns/0/your_model_id/artifacts/model -h 0.0.0.0 -p 8001
 ```
 
 What you have just done is serving your model as an HTTP endpoint in your
-server IP and port 1234 (be careful not having any service listening there), so that
+server IP and port 8001 (be careful not having any service listening there), so that
 it is ready for receiving incoming data to return predictions. You can then query
 your model with a simple curl command:
 
 ```bash
-curl -X POST -H "Content-Type:application/json; format=pandas-split" --data '{"columns":["alcohol", "chlorides", "citric acid", "density", "fixed acidity", "free sulfur dioxide", "pH", "residual sugar", "sulphates", "total sulfur dioxide", "volatile acidity"],"data":[[12.8, 0.029, 0.48, 0.98, 6.2, 29, 3.33, 1.2, 0.39, 75, 0.66]]}' http://0.0.0.0:1234/invocations
+curl -X POST -H "Content-Type:application/json; format=pandas-split" --data '{"columns":["alcohol", "chlorides", "citric acid", "density", "fixed acidity", "free sulfur dioxide", "pH", "residual sugar", "sulphates", "total sulfur dioxide", "volatile acidity"],"data":[[12.8, 0.029, 0.48, 0.98, 6.2, 29, 3.33, 1.2, 0.39, 75, 0.66]]}' http://0.0.0.0:8001/invocations
 ```
 
 Python using the requests module or any programming language is also fine for
 getting predictions, since HTTP protocol is language agnostic.
 
-Finally, if you want to serve it into production the only thing you need to do is adding
-it to the supervisor configuration:
+```python
+import requests
 
-### Supervisor
+host = '0.0.0.0'
+port = '8001'
+
+url = f'http://{host}:{port}/invocations'
+
+headers = {
+    'Content-Type': 'application/json',
+}
+
+# test_data is a Pandas dataframe with data for testing the ML model
+http_data = test_data.to_json(orient='split')
+
+r = requests.post(url=url, headers=headers, data=http_data)
+
+print(f'Predictions: {r.text}')
+```
+
+### Production
+
+Finally, if you want to serve it in production the only thing you need to do is adding
+the systemd configuration:
 
 ```bash
-sudo mkdir -p /var/log/mlflow/production
-```
+[Unit]
+Description=MLFlow model in production
+After=network.target
 
-Add the following lines to /etc/supervisor/supervisord.conf (remember to replace the string "your_user"
-in the following lines with your current username):
+[Service]
+Restart=on-failure
+RestartSec=30
+StandardOutput=file:/path_to_your_logging_folder/stdout.log
+StandardError=file:/path_to_your_logging_folder/stderr.log
+Environment=MLFLOW_TRACKING_URI=http://host_ts:port_ts
+Environment=MLFLOW_CONDA_HOME=/path_to_your_conda_installation
+ExecStart=/bin/bash -c 'PATH=/path_to_your_conda_installation/envs/mlinproduction_env/bin/:$PATH exec mlflow models serve -m path_to_your_model -h host -p port'
 
-```
-[program:mlflow_production]
-command = /bin/bash -c 'source "$0" && exec "$@"' /home/your_user/.venvs/production_env/bin/activate mlflow models serve -m ~/mlruns/0/your_model_id/artifacts/model -h 0.0.0.0 -p 1234
-autostart = true
-autorestart = true
-user = mlflow
-stdout_logfile = /var/log/mlflow/production/stdout.log
-stderr_logfile = /var/log/mlflow/production/stderr.log
-stopsignal = KILL
-```
-
-Restart server and check that everything went ok:
-
-```bash
-sudo service supervisor restart
-sudo supervisorctl
-```
-
-Expected output:
-
-```
-mlflow_tracking_server           RUNNING   pid 25517, uptime 0:00:12
-mlflow_production                RUNNING   pid 27432, uptime 0:00:09
+[Install]
+WantedBy=multi-user.target
 ```
