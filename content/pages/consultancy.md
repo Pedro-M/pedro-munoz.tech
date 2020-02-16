@@ -5,9 +5,8 @@ Tags: freelance, ai, deep learning, computer vision, big data, consultancy
 Slug: consultancy
 Authors: Pedro Muñoz
 Summary: Quickly get your Data Science Advise
-Header_Cover: images/posts/consultancy/consultancy.jpg
+Header_Cover: images/pages/consultancy/consultancy.jpg
 Headline: Quickly get your Data Science Advise
-Status: Draft
 
 I offer Data Science advise in case you need help on implementing
 your Data Strategy, bootstraping a model or getting a closer insight

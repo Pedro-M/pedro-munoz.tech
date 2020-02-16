@@ -1,10 +1,27 @@
 Title: Experience
 Header_Cover: images/pages/experience/experience.jpg
 
+## Engineering Lead & Managing Partner
+<a href="https://whiteboxml.com/" target="_blank">
+####WhiteBox Machine Learning</a>
+_October 2019 - Present_  
+
+This is my consulting firm, in which I develop Artificial Intelligence projects as
+a service
+
+&nbsp;
+## Guru
+<a href="https://thegurus.tech/" target="_blank">
+####The Gurus</a>
+_June 2019 - Present_  
+
+This is my startup firm, in which I bootstrap tech products
+
+&nbsp;
 ## Senior Data Scientist
 <a href="https://pragsis.com/" target="_blank">
 ####Pragsis Bidoop</a>
-_April 2018 - Present_  
+_April 2018 - October 2019_  
 
 TASKS:
 
@@ -33,27 +50,7 @@ technical stack to build the future generation of Data Scientists. My most impor
 experience with the Real World as I don’t spend more of 50 % of my time in academia.
 
 &nbsp;
-## Maintainer
-<a href="https://datatau.net/" target="_blank">
-####DataTau</a>
-_June 2019 - Present_  
-
-TASKS:
-
-- Web development with Django (Python)
-- Management and maintenance of Open Source project (issues, roadmap, pull requests, etc.)
-- Promoting the site in tech forums and communities
-- Hosting management in personal datacenter
-
-ACHIEVEMENTS:
-
-- Development of a fully functional clone of Hacker News in a record time (3 days)
-- Viral relaunching of the site, reaching Hacker News front page and a very relevant position in Reddit
-- Hosting in self-owned infrastructure, supporting major traffic spikes
-- Revitalizing DataTau community and creation of open source project that ensures continuity and independence of DataTau forever
-
-&nbsp;
-## Tech Director
+## Tech Advisor
 <a href="https://hr-bots.com/" target="_blank">
 ####HRbots</a>
 _January 2018 - Present_
@@ -72,21 +69,6 @@ ACHIEVEMENTS:
 - Creation of engagement in bot conversations through contests and analytics
 
 &nbsp; 
-## Founder
-<a href="https://moderator-guru.com/" target="_blank">
-####The Moderator Guru</a>
-_January 2019 - Present_  
-
-TASKS:
-
-- Development of an NLP engine capable of detecting and classifying toxic comments
-- Development of the Frontend stack (HTML, CSS, Javascript) using Bootstrap and jQuery along with a Django backend
-
-ACHIEVEMENTS:
-
-- An NLP project working on production with an available API
-
-&nbsp;
 ## Big Data Developer - Data Scientist
 <a href="https://www.p3-group.com/en/" target="_blank">
 ####P3-Group</a>
