@@ -1,4 +1,4 @@
-cp ../../cvs/pedro/pedro_munoz_cv.pdf content/downloads/pedro-munoz-cv.pdf
+cp ../../../shared/cvs/pedro/pedro_munoz_cv.pdf content/downloads/pedro-munoz-cv.pdf
 git add content/downloads/pedro-munoz-cv.pdf
 git commit -m 'Updated cv'
 git push
