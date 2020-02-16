@@ -15,7 +15,14 @@ a service
 ####The Gurus</a>
 _June 2019 - Present_  
 
-This is my startup firm, in which I bootstrap tech products
+This is my startup firm, in which I bootstrap tech products such as:
+
+- <a href="https://moderator-guru.com/" target="_blank">The Moderator Guru</a>: 
+Automatic, AI based text content moderation
+- <a href="https://datatau.net/" target="_blank">DataTau</a>: 
+Reference newsboard for Data Scientists and Data Engineers, inspired by Hacker News
+- <a href="https://eltrenbarato.es/" target="_blank">El Tren Barato</a>: 
+Most complete alarm system and route analysis of Spanish railways
 
 &nbsp;
 ## Senior Data Scientist
